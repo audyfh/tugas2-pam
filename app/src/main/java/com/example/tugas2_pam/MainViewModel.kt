@@ -14,4 +14,26 @@ class MainViewModel : ViewModel() {
     var email by mutableStateOf("")
     var imgUri by mutableStateOf<Uri?>(null)
 
+    var firstName by mutableStateOf("")
+
+    var lastName by mutableStateOf("")
+
+    var fullName by mutableStateOf("")
+
+    fun validate(): Boolean {
+        if (
+            username.isEmpty() ||
+            jabatan.isEmpty() ||
+            jenisKelamin.isEmpty() ||
+            email.isEmpty() ||
+            imgUri == null ||
+            firstName.isEmpty() ||
+            lastName.isEmpty()
+        ) {
+            return false
+        }
+        fullName = "$firstName $lastName"
+        return true
+    }
+
 }

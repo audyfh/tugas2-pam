@@ -1,5 +1,6 @@
 package com.example.tugas2_pam
 
+import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.BorderStroke
@@ -14,8 +15,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material3.ButtonDefaults
@@ -35,6 +38,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -54,6 +58,9 @@ fun RegistScreen(
     var genderExpanded by remember { mutableStateOf(false) }
     val jabatanList = listOf("Mahasiswa", "Dosen", "Staff")
     val genderList = listOf("Laki-laki", "Perempuan")
+    val context = LocalContext.current
+    val scrollState = rememberScrollState()
+
 
     val imgPicker = rememberLauncherForActivityResult(
         ActivityResultContracts.GetContent()
@@ -68,7 +75,8 @@ fun RegistScreen(
         modifier = modifier
             .fillMaxSize()
             .background(Color.White)
-            .padding(16.dp),
+            .padding(16.dp)
+            .verticalScroll(scrollState),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Spacer(
@@ -109,6 +117,44 @@ fun RegistScreen(
             OutlinedTextField(
                 value = mainViewModel.username,
                 onValueChange = { mainViewModel.username = it },
+                modifier = modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(12.dp)
+            )
+        }
+
+
+
+        Column(
+            modifier = modifier
+                .padding(top = 16.dp)
+                .fillMaxWidth(),
+            horizontalAlignment = Alignment.Start
+        ) {
+            Text(
+                "First Name",
+                fontWeight = FontWeight.SemiBold
+            )
+            OutlinedTextField(
+                value = mainViewModel.firstName,
+                onValueChange = { mainViewModel.firstName = it },
+                modifier = modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(12.dp)
+            )
+        }
+
+        Column(
+            modifier = modifier
+                .padding(top = 16.dp)
+                .fillMaxWidth(),
+            horizontalAlignment = Alignment.Start
+        ) {
+            Text(
+                "First Name",
+                fontWeight = FontWeight.SemiBold
+            )
+            OutlinedTextField(
+                value = mainViewModel.lastName,
+                onValueChange = { mainViewModel.lastName = it },
                 modifier = modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(12.dp)
             )
@@ -225,7 +271,13 @@ fun RegistScreen(
 
         Spacer(modifier.weight(1f))
         OutlinedButton(
-            onClick = { onSaveClick()},
+            onClick = {
+                if (mainViewModel.validate()){
+                    onSaveClick()
+                } else {
+                    Toast.makeText(context, "Lengkapi semua data!", Toast.LENGTH_SHORT).show()
+                }
+            },
             border = BorderStroke(0.dp,Color.Transparent),
             colors = ButtonDefaults.outlinedButtonColors(
                 containerColor = Color.Black

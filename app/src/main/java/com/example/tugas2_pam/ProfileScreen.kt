@@ -82,6 +82,22 @@ fun ProfileScreen(
             modifier = modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.Start
         ) {
+            Text("Username", fontWeight = FontWeight.SemiBold)
+            OutlinedTextField(
+                value = mainViewModel.fullName,
+                onValueChange = {},
+                readOnly = true,
+                modifier = modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(12.dp)
+            )
+        }
+
+        Spacer(modifier.height(16.dp))
+
+        Column(
+            modifier = modifier.fillMaxWidth(),
+            horizontalAlignment = Alignment.Start
+        ) {
             Text("Jabatan", fontWeight = FontWeight.SemiBold)
             OutlinedTextField(
                 value = mainViewModel.jabatan,
